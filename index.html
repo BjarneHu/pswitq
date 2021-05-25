@@ -1,0 +1,50 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+      <title>Bjarne STL Calculator</title>
+      <link rel="stylesheet" type="text/css" href="style.css">
+    </head>
+
+    <body>
+        <H1>Bjarnes STL Calculator</H1>
+      <div id="stl-container"></div>
+      
+      <!-- <div class="dropZoneContainer">
+        <input type="file" id="drop_zone" class="FileUpload" accept=".jpg,.png,.gif" onchange="handleFileSelect(this) " />
+        <div class="dropZoneOverlay">Drag and drop your image <br />or<br />Click to add</div>
+    </div>
+  -->
+      
+      <div >
+        <label class="button" for="dropZone">Choose File</label>
+        <h2>OR </h2>
+        <div class="dropZoneContainer">
+          <div class="dropZoneOverlay">Drag and Drop</div>
+        <input type="file"  onchange='loadFile(this.files[0])' accept=".stl" class="FileUpload" id="dropZone" ></input>
+       
+        </div>
+       
+        <!-- <h2 for="dRd" id="dropZone">Drag and Drop</h2> -->
+     
+        
+    </div>
+      <button class="btn-one" id="volume-button" type="button">Calculate Volume</button>
+      <button class="btn-one"  id="size-button" type="button">Calculate Size</button>
+      
+      <div>
+        <h5>Volumen: <br>
+        <p id="volume-output"></p></h5>
+        <br>     
+        <h5>Size: <br>
+          <span id="x-size"></span> <br>
+          <span id="y-size"></span> <br>
+          <span id="z-size"></span><br>
+        </h5>
+      </div>
+
+      <script src="viewer.min.js"></script>
+      <script src="script.js"></script>
+      
+    </body>
+</html>
