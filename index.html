@@ -10,24 +10,16 @@
         <H1>TQ STL</H1>
       <div id="stl-container"></div>
       
-      <!-- <div class="dropZoneContainer">
-        <input type="file" id="drop_zone" class="FileUpload" accept=".jpg,.png,.gif" onchange="handleFileSelect(this) " />
-        <div class="dropZoneOverlay">Drag and drop your image <br />or<br />Click to add</div>
-    </div>
-  -->
-      
+
       <div >
         <label class="button" for="dropZone">Choose File</label>
         <h2>OR </h2>
         <div class="dropZoneContainer">
           <div class="dropZoneOverlay">Drag and Drop</div>
-        <input type="file"  onchange='loadFile(this.files[0])' accept=".stl" class="FileUpload" id="dropZone" ></input>
+        <input type="file"  onchange='loadFile(this.files[0])' accept=".stl" class="FileUpload" id="dropZone" multiple></input>
        
         </div>
-       
-        <!-- <h2 for="dRd" id="dropZone">Drag and Drop</h2> -->
-     
-        
+   
     </div>
       <button class="btn-one" id="volume-button" type="button">Calculate Volume</button>
       <button class="btn-one"  id="size-button" type="button">Calculate Size</button>
