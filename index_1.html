@@ -1,0 +1,58 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+      <title>TQ Systems</title>
+      <link rel="stylesheet" type="text/css" href="style_1.scss">
+    </head>
+
+    <body>
+        <div class="navbar">
+            <div class="container">
+                <a class="logo" href="#">TQ</a>
+
+                <nav>
+                    <ul class="primary-nav">
+                        <li class="current"><a href="#">Konstenkalkulation</a></li>
+                        <li><a href="#">Hauptseite</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+        <section class="hero">
+            <div id="stl-container"></div>
+            <div class="DropMechanics">
+                <label class="choose-button" for="DropMechanics">Choose File</label>
+                <label class ="or-label" for="DropMechanics">OR</label>
+                <div class="dropZoneContainer">
+                    <div class="dropZoneOverlay">Drag and Drop</div> 
+            <input type="file"  onchange='loadFile(this.files[0])' accept=".stl" class="FileUpload" id="dropZone" multiple></input>
+                </div>
+            </div>
+
+            <div class="edit-buttons">
+                <button class="btn-one" id="volume-button" type="button">Calculate Volume</button>
+                <button class="btn-one"  id="size-button" type="button">Calculate Size</button>
+            </div>
+
+            <div class="infos">
+                <h5>Volumen: <br>
+                    <p id="volume-output"></p></h5>
+                    <br>     
+                    <h5>Size: <br>
+                      <span id="x-size"></span> <br>
+                      <span id="y-size"></span> <br>
+                      <span id="z-size"></span><br>
+                    </h5>              
+            </div>
+        </section>
+    
+   
+    </div>
+
+      <script src="viewer.min.js"></script>
+      <script src="script.js"></script>
+      
+    </body>
+</html>
