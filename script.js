@@ -13,6 +13,7 @@ var volume2;
 var preis2;
 var modellname;
 var datei;
+var material;
 
 
 
@@ -66,6 +67,7 @@ function setpreis(mat) {
         document.getElementById("seitenwechsel").disabled = false;
         document.getElementById("seitenwechsel").classList.remove("btn-two");
         document.getElementById("seitenwechsel").classList.add("btn-one");
+        material = "ASA";
         break;
         case "abs":
           preis = Math.round(volume*1.37*0.1)/100;
@@ -74,6 +76,7 @@ function setpreis(mat) {
           document.getElementById("seitenwechsel").disabled = false;
           document.getElementById("seitenwechsel").classList.remove("btn-two");
           document.getElementById("seitenwechsel").classList.add("btn-one");
+          material = "ABS ESD";
           break;
         case "pa":
           preis = Math.round(volume*1.10*0.1)/100;
@@ -82,6 +85,7 @@ function setpreis(mat) {
           document.getElementById("seitenwechsel").disabled = false;
           document.getElementById("seitenwechsel").classList.remove("btn-two");
           document.getElementById("seitenwechsel").classList.add("btn-one");
+          material = "PA2200";
           break;
         case "ar":
           preis = Math.round(volume*3.37*0.1)/100;
@@ -90,7 +94,7 @@ function setpreis(mat) {
         document.getElementById("seitenwechsel").disabled = false;
         document.getElementById("seitenwechsel").classList.remove("btn-two");
         document.getElementById("seitenwechsel").classList.add("btn-one");
-        
+        material = "AR-M2";
 
         break;
       default:
@@ -136,9 +140,8 @@ function uploadfiles() {
   zSize;
   volume;
   modellname;
-  console.log(datei);
-  console.log(volume);
   datei;
+  material;
   
 }
 volumeButton.addEventListener("click", calculateVolume);
