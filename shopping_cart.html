@@ -10,6 +10,7 @@
          
             <!-- Vue.js -->
             <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+            <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
          
             <!-- Bootstrap -->
             <link rel="stylesheet" type="text/css" href="shopping_cart.css">
@@ -44,10 +45,7 @@
                         </td>
                         <td>
                             <select name="Material" id="dropdown">
-                              <option value=1.15>ASA</option>
-                              <option value=1.37>ABS ESD</option>
-                              <option value=1.10>PA2200</option>
-                              <option value=3.37>AR-M2</option>
+                                <option v-for="item of materials" v-bind:value="item.value">{{item.name}}</option>
                             </select>
                         </td>
                         <td><input type="number" min="0"  step="1" class="form-control" v-model="item.menge"></td>
@@ -86,7 +84,11 @@
         <script>
             var app = new Vue({
                 el: '#app',
+                created(){
+                    this.getMaterials();
+                },
                 data: {
+                    materials: [],
                     warenkorb: [
                         {name: 'Auxiliary_1.stl', menge: 1, preis: 19.20},
                         {name: 'Furniture_black.stl', menge: 1, preis: 14.99},
@@ -101,6 +103,11 @@
                 methods: {
                     deleteItem(index) {
                         this.warenkorb.splice(index, 1);
+                    },
+                    getMaterials(){
+                        axios.get('http://localhost:3300?request=get_materials').then( response => {
+                            this.materials = response.data;
+                        })
                     }
                 }
          
