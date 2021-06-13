@@ -11,8 +11,6 @@ function set_order($conn, $data) {
     $conn->query($order_sql);
     $order_id = $conn->insert_id;
     foreach($data['warencorb'] as $model) {
-        //var_dump($model);
-        //die();
         $model_sql = sprintf("Insert into Bestellmodell (name, material_id,  post_process_id, unit_price, quantity,
         volume, size,  color,  order_id)  VALUES ('%s', %d, %d, %f, %d, %f, %f, '%s', %d)", 
         $model['name'], 
