@@ -38,13 +38,13 @@
                                         <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1h12z"/>
                                     </svg>{{ item.name }}</td>
                                     <td>
-                                        <select id="post_process_dropdown" v-model="item.post_process" v-on:change="onPostProcessChange(index, $event)">
-                                            <option value="">Nichts Ausgewählt</option>
+                                        <select id="post_process_dropdown" v-model="item.post_process ?? ''" v-on:change="onPostProcessChange(index, $event)">
+                                            <option value="" >Nichts Ausgewählt</option>
                                             <option v-for="element of post_processing" v-bind:value="element.value">{{element.name}}</option>
                                         </select>
                                     </td>
                                     <td>
-                                        <select  id="material_dropdown" v-model="item.material" v-on:change="onMaterialChange(index, $event)">
+                                        <select  id="material_dropdown" v-model="item.material ?? ''" v-on:change="onMaterialChange(index, $event)">
                                             <option value="">Nichts Ausgewählt</option>
                                             <option v-for="material of materials" v-bind:value="material.value">{{material.name}}</option>
                                         </select>
@@ -127,6 +127,7 @@
                     },
                     onPostProcessChange(itemIndex, e){
                         this.warenkorb[itemIndex].post_process = e.target.value;
+                        console.log('####', this.warenkorb)
                     },
                     getMaterials(){
                         axios.get('http://localhost:3300?request=get_materials').then( response => {
