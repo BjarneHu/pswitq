@@ -9,13 +9,25 @@ body {
   text-align: center;
   color: var(--background-color);
 }
+/* Container für Liste Volumen/Größe/Preis */
+.container-sm {
+  color:black;
+}
 
-#stl-container {
+
+
+.stl-container {
   width: 40em;
   height: 20em;
   margin: 0 auto;
   border: solid 1px grey;
   margin-bottom: 30px;
+}
+
+.stl-container2 {
+  width: 40em;
+  height: 20em;
+  border: solid 1px greenyellow;
 }
 
 h5 {
@@ -75,12 +87,12 @@ body {
     /* background: rgba(0,0,0,0.7); */
     text-align: center;
   }
-  /* #dropZone {
+   /* #dropZone { 
     border: 2px dashed #bbb;
     padding: 50px;
     font: 21pt bold arial;
     color: #bbb;
-  } */
+  }  */
 
   .test {
     border: 2px dashed #bbb;
@@ -113,19 +125,42 @@ body {
   color: #000000;
 }
 
+.btn-two {
+  margin-top: 2em;
+  line-height: 50px;
+  height: 3em;
+  text-align: center;
+  width: 12em;
+  cursor: not-allowed;
+  color: #FFF;
+  transition-duration: 0.2s;
+  border-radius: 5px;
+  background-color: #00A7E5;
+  color: black;
+  font-size: large;
+  text-align: center;
+}
 
+.dropZone {
+  color: pink;
+}
 
 .dropZoneContainer {
   
   border: dotted 2px white;
   border: 2px dashed #bbb;
   position: static;
-
-  font: 21pt bold arial;
+  font-size: 21pt;
   color: black;
-}
+  
+} 
 
-.dropZoneContainer:hover {
+.preissegment {
+  color: black;
+  font-size: 25pt;
+  font-weight: bold;
+} 
+.dropZoneContainer:hover { 
   background-color: #f5f5f5;
   position: static;
   color: black;
@@ -137,7 +172,8 @@ body {
   z-index: 1;
   cursor: pointer;
   padding: 50px;
-  font: 21pt bold arial;
+  font: 21pt bold;
   color: #D7DCE0;
 }
+
 
