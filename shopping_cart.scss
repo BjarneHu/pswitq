@@ -42,7 +42,7 @@
     position: relative;
     border: transparent;
     background-color: transparent;
-    left: 50em;
+    left: 51em;
 }
 
 .button_delete{
@@ -57,16 +57,32 @@
 
 .button_forward{
     position: absolute; 
-    left: 70em;
+    left: 55em;
+    bottom: 1em;
+    width: 100px;
+    font-weight: plain;
+    font-size: 20px;
     border: transparent;
-    background-color: transparent;
+    border-radius: 10px;
+    background-color: #00a7e5;
 }
 
 .button_back{
     position: absolute; 
     left: 22em;
+    bottom: 1em;
+    width: 100px;
+    font-weight: plain;
+    font-size: 20px;
     border: transparent;
-    background-color: transparent;
+    border-radius: 10px;
+    background-color: #00a7e5;
+    transition: font-weight 0.3s;
+}
+
+.button-back:hover
+{
+    font-weight: bold;
 }
 
 
