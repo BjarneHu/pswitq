@@ -5,6 +5,7 @@
 }
 
 body {
+  background-image: url("Mockup_1_1.png");
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   text-align: center;
   color: var(--background-color);
