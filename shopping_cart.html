@@ -38,12 +38,12 @@
                             <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
                             <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1h12z"/>
                           </svg>{{ item.name }}</td>
-                          <!-- Hier den Volumen-Wert aus DB einfügen -->
-                        <td> Testwert </td>
-                        <!-- Hier die Größenwerte aus DB einfügen -->
-                        <td>    Breite:
-                                Höhe:
-                                Tiefe </td>
+                          
+                        <td> {{ item.volumen }} </td>
+                        
+                        <td>    Breite: {{item.xsize}}
+                            Höhe: {{item.ysize}}
+                            Tiefe: {{item.zsize}} </td>
                           <td>
                             <select name="Nachbearbeitungsmöglichkeit" id="dropdown">
                               <option onclick= "setNachbearbeitung('keine')">Nichts Ausgewählt</option>
@@ -86,15 +86,15 @@
             <button class="button_back" href="index.html"><</button>
             <button class="button_forward">></button>
         </div>
-         <!-- Hier an die Stelle von "preis" den Preis aus der DB einspielen. -->
+         <!-- Hier an die Stelle von "volumen, xsize, ysize, zsize, preis" dentsprechenden Werte der DB einspielen. -->
         <script>
             var app = new Vue({
                 el: '#app',
                 data: {
                     warenkorb: [
-                        {name: 'Auxiliary_1.stl', menge: 1, preis: 19.20},
-                        {name: 'Furniture_black.stl', menge: 1, preis: 14.99},
-                        {name: 'Lamp_bright.stl', menge: 1, preis: 49.99},
+                        {name: 'Auxiliary_1.stl', volumen: 0, xsize: 0, ysize: 0, zsize: 0, menge: 1, preis: 19.20},
+                        {name: 'Furniture_black.stl', volumen: 0, xsize: 0, ysize: 0, zsize: 0, menge: 1, preis: 14.99},
+                        {name: 'Lamp_bright.stl', volumen: 0, xsize: 0, ysize: 0, zsize: 0, menge: 1, preis: 49.99},
                         ]
                 },
                 computed: {
