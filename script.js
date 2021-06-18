@@ -39,7 +39,7 @@ function calculateVolume() {
 function setpreis(mat) {
   if (volume == null) {document.getElementById("preis").innerHTML = "Bitte zuerst Datei auswählen";
   document.getElementById("material").innerHTML = "Bitte zuerst Volumen berechnen";}
-  // Die "preis"-Variable muss hier in den einzelnen Cases an die DB uebergeben werden!
+  // Die "preis"-Variable und die "material"-Variable müssen hier in den einzelnen Cases an die DB uebergeben werden!
   else {
     switch (mat) {
       case "asa":
@@ -48,6 +48,7 @@ function setpreis(mat) {
         document.getElementById("material").innerHTML = "ASA";
         document.getElementById("seitenwechsel").disabled = false;
         material = "ASA";
+        
         break;
         case "abs":
           preis = Math.round(volume*1.37*0.1)/100;
@@ -114,7 +115,6 @@ function uploadfiles() {
   volume;
   modellname;
   datei;
-  material;
   
 }
 volumeButton.addEventListener("click", calculateVolume);
