@@ -9,20 +9,22 @@
      
       </head>
       <body>
+
+        <div id="background">
+
+    
       
-        <div id="Page1">
+       
           
-        <H1>TQ</H1>
         <div id="stl-container" class="stl-container"></div>
         
        
   
         <div >
-          <label class="button" for="dropZone">Choose File</label>
-          <h2>OR </h2>
+          <label class="button-choose" for="dropZone">Choose File</label>
           <div class="dropZoneContainer">
             <div class="dropZoneOverlay">Drag and Drop</div> 
-          <input type="file"  onchange='loadFile(this.files[0])' accept=".stl" class="FileUpload" id="dropZone" multiple></input>
+            <input type="file"  onchange='loadFile(this.files[0])' accept=".stl" class="FileUpload" id="dropZone" multiple></input>
           
           </div>
           <div class="edit-buttons">
@@ -33,6 +35,7 @@
       </div>
       <br>
       <!-- Material dropdown -->
+      <!--
       <div class="dropdown">
         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <p id = "material">Material</p>
@@ -45,7 +48,7 @@
           
       </div>
       <br>
-      <!-- Nachbearbeitung dropdown -->
+    
       <div class="dropdown">
         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <p id="nachbearbeitung">Nachbearbeitung</p>
@@ -55,69 +58,39 @@
           <a class="dropdown-item" onclick= "setNachbearbeitung('glas')">Glasperlenstrahlen</a>
           
         </div>
+        
       </div>
-
+      -->
 
       <div class="container-sm">
         <div class="row">
-          <div class="col-sm">
+          <div class="col-sm" id="col-volumen">
   
             Volumen:
               <p id="volume-output"></p>
               
   
           </div>
-          <div class="col-sm">
+          <div class="col-sm" id="col-size">
             Size:
               <span id="x-size"></span>
               <span id="y-size"></span> 
               <span id="z-size"></span>          
           </div>
+          <!--
           <div class="col-sm">
             <p>Preis:
               <span id="preis"></span> <br> </p>
               </div>
           </div>
+        -->
         </div>
       </div>
       <br>
-        <button class="btn-two" id="seitenwechsel" disabled onclick="seitenwechsel()" type="button">Weiter</button>
+        <button class="btn-two" id="seitenwechsel" onclick="seitenwechsel()" type="button">Weiter</button>
   
   
-        
-          <a href="#" onclick=" return show('Page2','Page1');">Weiter</a>
-        </div>
       
-        <div id="Page2" style="display:none">
-          Content of page 2
-          
-          <div class="container-sm">
-            <div class="row">
-              <div class="col-sm">
-      
-                Volumen:
-                  <p id="volume-output2"></p>
-                  
-      
-              </div>
-              <div class="col-sm">
-                Size:
-                  <span id="x-size2"></span>
-                  <span id="y-size2"></span> 
-                  <span id="z-size2"></span>          
-              </div>
-              <div class="col-sm">
-                <p>Preis:
-                  <span id="preis2"></span> <br> </p>
-                  </div>
-              </div>
-              <div class="col-sm">
-                <p>Preis:
-                  <span id="modellname"></span> <br> </p>
-                  </div>
-              </div>
-              <a href="#" onclick="return show('Page1','Page2');">Zurück</a>
-            </div>
             
 
 
@@ -126,5 +99,7 @@
         <script src="js/jquery-3.6.0.min.js"></script>
         <script src="js/popper.min.js"></script>
         <script src="js/bootstrap.js"></script>
+
+      </div>
       </body>
       </html>

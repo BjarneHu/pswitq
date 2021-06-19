@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Warenkorb</title>
+            <!-- Vue.js -->
+            <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+            <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+         
+            <!-- Bootstrap -->
+            <link rel="stylesheet" type="text/css" href="shopping_cart.css">
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+            
+            <!-- ionicons -->
+            <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+            <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>        
+           
+            <!--
+              
+            -->
+            <link rel="stylesheet" type="text/css" href="css/spinner.css">
+            <script src="viewer.min.js"></script>     
+            <script src="js/jquery-3.6.0.min.js"></script>
+            <script src="js/popper.min.js"></script>
+            <script src="js/bootstrap.js"></script>
+        </head>
+        <body>
+            <div id="app" class="container-fluid">
+                <template v-if="!toCart">
+                    <template v-if="loadingModels">
+                        <div class="lds-spinner">
+                            <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+                        </div>
+                    </template>
+                    <div class="mt-3">
+                        <div class="row mb-3">
+                            <div class="offset-1 col-10">
+                                <div class="btn btn-outline-secondary">
+                                    <input id="btn-upload" hidden type="file"  v-on:change='uploadMultiFiles($event)' accept=".stl" class="FileUpload" id="dropZone" multiple></input>
+                                    <label for="btn-upload">Product Hochladen</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div v-for="(product, index) in products" class="row mb-3">
+                            <div class="offset-1 col-10 border border-secondary rounded p-2">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <div class="row">
+                                            <div class="col-10" >
+                                                <div v-html="product._3dModel"></div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-10">{{product.file_name}}</div>
+                                            <div class="col-10"> {{product.xsize}} x {{product.ysize}} x {{product.zsize}} mm</div>
+                                            <div class="col-10"> {{product.volumen}} cm3</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <div class="col-8">
+                                                <label>Material:</label>
+                                                <select  id="material_dropdown" class="custom-select mr-sm-2" v-on:change="onMaterialChange(index, $event)">
+                                                    <option :selected="!product.material" value="">Nichts Ausgewählt</option>
+                                                    <option v-for="material of materials" :selected="product.material == material.value" v-bind:value="material.value" :data-price="material.price" >{{material.name}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-3">
+                                            <div class="col-8">
+                                                <label>Nachbearbeitung:</label>
+                                                <select id="post_process_dropdown" :disabled="!product.material" class="custom-select mr-sm-2" v-on:change="onPostProcessChange(index, $event)">
+                                                    <option :selected="!product.post_process" value="" >Nichts Ausgewählt</option>
+                                                    <option v-for="post_process of product.post_processing_list" :selected="product.post_process == post_process.value" v-bind:value="post_process.value">{{post_process.name}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-3">
+                                            <div class="col-8">
+                                                <label>Stückzahl:</label>
+                                                <input class="form-control" type="number" step="1" min="1" value="1" v-model="product.menge">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <div class="d-flex flex-column justify-content-end align-items-end pr-2" style="height: 100%;">
+                                            <div>{{product.preis ? (product.preis * product.menge).toFixed(2) + ' €': '-.-'}}</div>
+                                            <div>{{product.preis ? (product.preis).toFixed(2) + ' € ': '-.-'}}/Stk</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row actions mt-4">
+                                    <div class="col-8">
+                                        <div class="btn btn-outline-primary pl-4 pr-4" v-on:click="removeProduct(index)">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-x" viewBox="0 0 16 16">
+                                                <path d="M7.354 5.646a.5.5 0 1 0-.708.708L7.793 7.5 6.646 8.646a.5.5 0 1 0 .708.708L8.5 8.207l1.146 1.147a.5.5 0 0 0 .708-.708L9.207 7.5l1.147-1.146a.5.5 0 0 0-.708-.708L8.5 6.793 7.354 5.646z"/>
+                                                <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zm3.915 10L3.102 4h10.796l-1.313 7h-8.17zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                                            </svg>
+                                        </div>
+                                        <div class="btn btn-outline-primary" v-on:click="cloneProduct(product)">Kopieren</div>
+                                        <div class="btn btn-outline-primary">Aktion-2</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="row mb-3">
+                            <div class=" dropZoneContainer offset-1 col-10 pt-4 pb-5 border border-secondary rounded p-2 d-flex flex-column align-items-center justify-content-center">
+                                    <ion-icon size="large" name="cloud-upload-outline"></ion-icon>
+                                    <div class="dropZoneContainer d-flex justify-content-center align-items-center flex-column p-4" 
+                                        style="position: absolute; padding-top: 50px; left: 0; right: 0; top: 0; bottom: 0;"  >
+                                            <label class="button-choose" style="margin-top: 45px;" for="dropZone">Datei hiereinziehen</label>
+                                            <input style="position: absolute; left: 0; right: 0; top: 0; bottom: 0; opacity: 0;" type="file"  v-on:change='uploadMultiFiles($event)' accept=".stl" class="FileUpload" id="dropZone" multiple></input>
+                                    </div>
+                            </div>
+                        </div>
+    
+                        <div class="row mt-3">
+                            <div class="offset-1 col-10 pt-4 d-flex justify-content-end">
+                                <div class="btn btn-success" v-on:click="() => {toCart = true;}"> Zur Kasse</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div hidden id="stl-cont" class="stl-cont"></div>
+                </template>
+
+                <template v-else>
+                    <template v-if="!orderedSuccess">
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <table class="table table-striped caption-top" style="top:0; right:0;">
+                                    <thead class="table-dark">
+                                      <tr>
+                                        <th scope="col">#</th>
+                                        <th>Produkt</th>
+                                        <th>Volumen</th>
+                                        <th>Größe (BxHxT)</th>
+                                        <th>Nachbearbeitung</th>
+                                        <th>Material</th>
+                                        <th>Anzahl</th>
+                                        <th>Einzelpreis</th>
+                                        <th>Gesamtpreis</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="(product, idx) of products">
+                                            <td>{{idx + 1}}</td>
+                                            <td>{{product.file_name}}</td>
+                                            <td>{{product.volumen}} cm3</td>
+                                            <td>{{product.xsize}} x {{product.ysize}} x {{product.zsize}} mm</td>
+                                            <td>{{product.post_processing_list.length > 0 && product.post_process ? product.post_processing_list.find(item => item.value == product.post_process).name : '-'}}</td>
+                                            <td>{{getMaterialName(product.material)}}</td>
+                                            <td>{{product.menge}}</td>
+                                            <td>{{product.preis.toFixed(2)}} €</td>
+                                            <td>{{(product.preis * product.menge).toFixed(2)}} €</td>
+                                        </tr>
+                                        <tfoot class="table-dark">
+                                            <tr>
+                                                <td colspan="8">Total</td>
+                                                <td>{{gesamtpreis.toFixed(2)}} €</td>
+                                            </tr>
+                                        </tr>
+                                    </tbody>
+                                  </table>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="offset-1 col-10 pt-4 d-flex justify-content-end">
+                                    <div class="btn btn-success" v-on:click="doOrder()"> Jetzt Bestellen</div>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                    <template v-else>
+                        <div class="row mt-3">
+                            <div class="offset-1 col-10 pt-4 d-flex justify-content-end">
+                                <h3>Danke  für die Bestellung</h3>
+                            </div>
+                        </div>
+                    </template>
+                </template>
+
+            </div>
+
+         <!-- Hier an die Stelle von "volumen, xsize, ysize, zsize, preis" dentsprechenden Werte der DB einspielen. -->
+        <script>
+            const ProductPage = new Vue({
+                el: '#app',
+                created(){
+                    this.getMaterials();
+                    __this = this;
+                    this.stl_viewer = new StlViewer( document.createElement('div'), 
+                    {
+                        models:[], 
+                        model_loaded_callback(model_id){
+                                    __this.products.push({
+                                        _3dModel: document.getElementById('stl-cont').cloneNode(true),
+                                        file_name: __this.stl_viewer.get_model_info(model_id).name, 
+                                        volumen: Math.round(__this.stl_viewer.get_model_info(model_id).volume * 0.1) / 100, 
+                                        xsize: Math.round(__this.stl_viewer.get_model_mesh(model_id).geometry.maxx * 10) / 100 * 2, 
+                                        ysize: Math.round(__this.stl_viewer.get_model_mesh(model_id).geometry.maxy * 10) / 100 * 2, 
+                                        zsize: Math.round(__this.stl_viewer.get_model_mesh(model_id).geometry.maxz * 10) / 100 * 2, 
+                                        menge: 1, 
+                                        preis: 0,
+                                        post_processing_list: []
+                                    })
+                        },
+                        loading_progress_callback(load_status, load_session){
+                            __this.loadingModels = true;
+
+                        },
+                        all_loaded_callback() {
+                            __this.loadingModels = false;
+                        }
+                        
+                    });
+                },
+                data: {
+                    orderedSuccess: false,
+                    toCart: false,
+                    loadingModels: false,
+                    orderSent: false,
+                    total_price: 0,
+                    materials: [],
+                    products: [],
+                },
+                computed: {
+                    gesamtpreis: function() {
+                        this.total_price = this.products.reduce((acc, curr) => acc + curr.menge*curr.preis, 0);
+                        return this.total_price;
+                    }
+                },
+                methods: {
+                    removeProduct(index){
+                        this.products.splice(index, 1);
+                    },
+                    cloneProduct(product){
+                        this.products.push(JSON.parse(JSON.stringify(product)));
+                    },
+                    uploadMultiFiles(e) {
+                        var idx = 0;
+                        for(file of e.target.files) {
+                            __this = this;
+                            idx = idx+1;
+                            var stlContainer = document.createElement("div");
+                            stlContainer.classList.add('stl-container')
+                            this.stl_viewer.add_model({id: idx, local_file: file});
+                        }
+                    },
+
+                    deleteItem(index) {
+                        this.warenkorb.splice(index, 1);
+                    },
+                    getMaterialName(id) {
+                        return this.materials.find(element => element.value == id).name;
+                    },
+                    onMaterialChange(itemIndex, e){
+                        this.getPostProcessing(e.target.value, itemIndex);
+                        price = parseFloat(e.target[e.target.selectedIndex].getAttribute('data-price').replace(',', '.'))
+                        product = this.products[itemIndex];
+                        product.material = e.target.value;
+                        product.preis = product.volumen * price;
+                    },
+                    onPostProcessChange(itemIndex, e){
+                        this.products[itemIndex].post_process = e.target.value;
+                    },
+                    getMaterials(){
+                        axios.get('http://localhost:3300?request=get_materials').then( response => {
+                            this.materials = response.data;
+                        })
+                    }, 
+                    getPostProcessing(material_id, product_idx){
+                        axios.get('http://localhost:3300?request=get_post_processing&material_id='+material_id).then( response => {
+                            this.products[product_idx].post_processing_list = response.data;
+                        })
+                    }, 
+                    doOrder(){
+                        console.log(this.products);
+                        body = {
+                            request: 'set_order',
+                            data: {
+                                customer_id: 1,
+                                warencorb: this.products,
+                                total_price: this.gesamtpreis
+                            }
+                        }
+                        axios.post('http://localhost:3300', body).then( response => {
+                            if(response.data === 'ok') {
+                                this.orderedSuccess = true;
+                            }
+                        })
+                    },
+
+                }
+         
+            })
+        </script>
+         
+    </body>
+</html>

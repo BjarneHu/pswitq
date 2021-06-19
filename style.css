@@ -5,22 +5,45 @@
 }
 
 body {
+  background: url("Mockup_1_1.png");
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   text-align: center;
   color: var(--background-color);
 }
 /* Container für Liste Volumen/Größe/Preis */
 .container-sm {
+  position: relative;
+  top: 60em;
   color:black;
+}
+
+#col-volumen{
+  position: absolute;
+  left: -30em; 
+}
+
+#col-size{
+  position: absolute;
+  left: -29.1em;
+  top: 2em; 
+}
+
+#background{
+  background-image: url("Mockup_1_1.png");
+  width: 1920px;
+  height: 1200px; 
 }
 
 
 
 .stl-container {
+  position: absolute;
   width: 40em;
   height: 20em;
   margin: 0 auto;
   border: solid 1px grey;
+  top: 40em;
+  left: 15em;
   margin-bottom: 30px;
 }
 
@@ -52,11 +75,11 @@ ul {
   font-size: large;
 } 
 
-h2 {
+.button-choose {
+  position: absolute;
   color: black;
-}
-
-.button {
+  top: 57em;
+  left: 76em;
   display: inline-block;
   padding: 10px;
   background: #00A7E5;
@@ -67,8 +90,9 @@ h2 {
   text-align: center;
 }
 
-.button:hover {
-  background-color: #D7DCE0;
+.button-choose:hover {
+  background-color: #dadde2;
+  
 }
 
 body {
@@ -103,6 +127,9 @@ body {
   
 
   .btn-one {
+    position: relative;
+    top: 53em;
+    right: 22em;
     margin-top: 2em;
     line-height: 50px;
     height: 3em;
@@ -121,12 +148,15 @@ body {
 
 .btn-one:hover {
 
-  background-color: #D7DCEF;
+  background-color: #dadde2;
   color: #000000;
 }
 
 .btn-two {
   margin-top: 2em;
+  position: absolute;
+  top: 60em;
+  left: 84em;
   line-height: 50px;
   height: 3em;
   text-align: center;
@@ -142,14 +172,17 @@ body {
 }
 
 .dropZone {
+  top: 25em;
+  left: 35em;
   color: pink;
 }
 
 .dropZoneContainer {
-  
+  top: 25em;
+  left: 35em;
   border: dotted 2px white;
   border: 2px dashed #bbb;
-  position: static;
+  position: absolute;
   font-size: 21pt;
   color: black;
   
@@ -161,8 +194,10 @@ body {
   font-weight: bold;
 } 
 .dropZoneContainer:hover { 
+  top: 25em;
+  left: 35em;
   background-color: #f5f5f5;
-  position: static;
+  position: absolute;
   color: black;
 }
 
