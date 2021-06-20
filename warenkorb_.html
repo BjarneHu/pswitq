@@ -43,7 +43,7 @@
                             <div class="offset-1 col-10">
                                 <div class="btn btn-outline-secondary">
                                     <input id="btn-upload" hidden type="file"  v-on:change='uploadMultiFiles($event)' accept=".stl" class="FileUpload" id="dropZone" multiple></input>
-                                    <label for="btn-upload">Product Hochladen</label>
+                                    <label for="btn-upload">Datei Hochladen</label>
                                 </div>
                             </div>
                         </div>
@@ -55,13 +55,15 @@
                                         <div class="row">
                                             <!-- Model 3d View (Image) -->
                                             <div class="col-10" >
+                                                Test
                                                 <div v-html="product._3dModel"></div>
+                                                Test
                                             </div>
                                         </div>
                                         <!-- Model properties (name, size, volume) -->
                                         <div class="row">
                                             <div class="col-10">{{product.file_name}}</div>
-                                            <div class="col-10"> {{product.xsize}} x {{product.ysize}} x {{product.zsize}} mm</div>
+                                            <div class="col-10"> {{product.xsize}} x {{product.ysize}} x {{product.zsize}} cm</div>
                                             <div class="col-10"> {{product.volumen}} cm3</div>
                                         </div>
                                     </div>
