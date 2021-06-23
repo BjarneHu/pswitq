@@ -299,6 +299,9 @@
 
                     // Display Material Name
                     getMaterialName(id) {
+                        if(this.materials && this.materials.length < 1) {
+                            return "-";
+                        }
                         return this.materials.find(element => element.value == id).name;
                     },
 
