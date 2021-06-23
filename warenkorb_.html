@@ -8,17 +8,17 @@
             <!-- import Axios -->
             <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
          
+            <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
             <!-- import Bootstrap -->
             <link rel="stylesheet" type="text/css" href="shopping_cart.css">
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-            
+
             <!-- ionicons icons-->
             <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-            <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>        
-           
+            <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
             <!-- import Custom StyleSheet -->
-            <link rel="stylesheet" type="text/css" href="css/spinner.css">
-            
+            <link rel="stylesheet" type="text/css" href="css/custom.css">
             <!-- import Custom Views -->
             <script src="viewer.min.js"></script>     
             <script src="js/jquery-3.6.0.min.js"></script>
@@ -42,8 +42,8 @@
                             <!-- Upload Button -->
                             <div class="offset-1 col-10">
                                 <div class="btn btn-outline-secondary">
-                                    <input id="btn-upload" hidden type="file"  v-on:change='uploadMultiFiles($event)' accept=".stl" class="FileUpload" id="dropZone" multiple></input>
-                                    <label for="btn-upload">Product Hochladen</label>
+                                    <input id="btn-upload" hidden type="file"  v-on:change='uploadMultiFiles($event)' accept=".stl" class="FileUpload" multiple></input>
+                                    <label for="btn-upload">Datei Hochladen</label>
                                 </div>
                             </div>
                         </div>
@@ -55,13 +55,15 @@
                                         <div class="row">
                                             <!-- Model 3d View (Image) -->
                                             <div class="col-10" >
-                                                <div v-html="product._3dModel"></div>
+                                                Test
+                                                <div class="model-view-container" v-html="product._3dModel"></div>
+                                                Test
                                             </div>
                                         </div>
                                         <!-- Model properties (name, size, volume) -->
                                         <div class="row">
                                             <div class="col-10">{{product.file_name}}</div>
-                                            <div class="col-10"> {{product.xsize}} x {{product.ysize}} x {{product.zsize}} mm</div>
+                                            <div class="col-10"> {{product.xsize}} x {{product.ysize}} x {{product.zsize}} cm</div>
                                             <div class="col-10"> {{product.volumen}} cm3</div>
                                         </div>
                                     </div>
@@ -178,13 +180,13 @@
                                             <td>{{product.preis.toFixed(2)}} €</td>
                                             <td>{{(product.preis * product.menge).toFixed(2)}} €</td>
                                         </tr>
-                                        <tfoot class="table-dark">
-                                            <tr>
-                                                <td colspan="8">Total</td>
-                                                <td>{{gesamtpreis.toFixed(2)}} €</td>
-                                            </tr>
-                                        </tr>
                                     </tbody>
+                                    <tfoot class="table-dark">
+                                        <tr>
+                                            <td colspan="8">Total</td>
+                                            <td>{{gesamtpreis.toFixed(2)}} €</td>
+                                        </tr>
+                                    </tfoot>
                                   </table>
                             </div>
                             <div class="row mt-3">
@@ -219,18 +221,22 @@
                     {
                         models:[], 
                         model_loaded_callback(model_id){
-                                    // add model to Vue data products after loading it
-                                    __this.products.push({
-                                        _3dModel: document.getElementById('stl-cont').cloneNode(true),
-                                        file_name: __this.stl_viewer.get_model_info(model_id).name, 
-                                        volumen: Math.round(__this.stl_viewer.get_model_info(model_id).volume * 0.1) / 100, 
-                                        xsize: Math.round(__this.stl_viewer.get_model_mesh(model_id).geometry.maxx * 10) / 100 * 2, 
-                                        ysize: Math.round(__this.stl_viewer.get_model_mesh(model_id).geometry.maxy * 10) / 100 * 2, 
-                                        zsize: Math.round(__this.stl_viewer.get_model_mesh(model_id).geometry.maxz * 10) / 100 * 2, 
-                                        menge: 1, 
-                                        preis: 0,
-                                        post_processing_list: []
-                                    })
+                            model = __this.stl_viewer.models.find(item => item.id === model_id)
+                            container = document.createElement('div')
+                            container.setAttribute('id', 'model_view_'+model_id)
+                            container.classList.add('model_3d_view')
+                            __this.products.push({
+                                model_id: model_id,
+                                _3dModel: container.outerHTML,
+                                file_name: __this.stl_viewer.get_model_info(model_id).name,
+                                volumen: Math.round(__this.stl_viewer.get_model_info(model_id).volume * 0.1) / 100,
+                                xsize: Math.round(__this.stl_viewer.get_model_mesh(model_id).geometry.maxx * 10) / 100 * 2,
+                                ysize: Math.round(__this.stl_viewer.get_model_mesh(model_id).geometry.maxy * 10) / 100 * 2,
+                                zsize: Math.round(__this.stl_viewer.get_model_mesh(model_id).geometry.maxz * 10) / 100 * 2,
+                                menge: 1,
+                                preis: 0,
+                                post_processing_list: []
+                            });
                         },
                         loading_progress_callback(load_status, load_session){
                             __this.loadingModels = true;
@@ -238,6 +244,13 @@
                         },
                         all_loaded_callback() {
                             __this.loadingModels = false;
+                            setTimeout(() => {
+                                __this.stl_viewer.models.forEach(model => {
+                                    content = document.getElementById('model_view_'+model.id);
+                                    new StlViewer( content, {models: [{id: 1, local_file: model.local_file}], canvas_width: 200, canvas_height: 200})
+                                    //content.style.background = 'red';
+                                })
+                            }, 100)
                         }
                         
                     });
@@ -261,7 +274,21 @@
                         this.products.splice(index, 1);
                     },
                     cloneProduct(product){
-                        this.products.push(JSON.parse(JSON.stringify(product)));
+                        cloned_product = JSON.parse(JSON.stringify(product));
+                        model = __this.stl_viewer.models.find(item => item.id === cloned_product.model_id);
+
+                        container_id = 'model_view_'+ cloned_product.model_id + '_copy_after_'+this.products.length;
+                        copy_container = document.createElement('div');
+                        copy_container.setAttribute('id', container_id)
+                        copy_container.classList.add('model_3d_view')
+
+                        cloned_product._3dModel = copy_container.outerHTML;
+                        this.products.push(cloned_product);
+
+                        setTimeout(() => {
+                            new StlViewer( document.getElementById(container_id), {models: [{id: 1, local_file: model.local_file}], canvas_width: 200, canvas_height: 200})
+                        }, 30)
+
                     },
                     uploadMultiFiles(e) {
                         var idx = 0;
