@@ -25,7 +25,7 @@
             <script src="js/popper.min.js"></script>
             <script src="js/bootstrap.js"></script>
         </head>
-        <body>
+        <body class="body">
             <div id="app" class="container-fluid">
                 
                 <!-- Init Models template -->
@@ -129,7 +129,7 @@
                                     <div class="dropZoneContainer d-flex justify-content-center align-items-center flex-column p-4" 
                                         style="position: absolute; padding-top: 50px; left: 0; right: 0; top: 0; bottom: 0;"  >
                                             <label class="button-choose" style="margin-top: 45px;" for="dropZone">Datei hiereinziehen</label>
-                                            <input style="position: absolute; left: 0; right: 0; top: 0; bottom: 0; opacity: 0;" type="file"  v-on:change='uploadMultiFiles($event)' accept=".stl" class="FileUpload" id="dropZone" multiple></input>
+                                            <input style="position: absolute; left: 0em; right: 0; top: 0; bottom: 0; opacity: 0; width: 100%;" type="file"  v-on:change='uploadMultiFiles($event)' accept=".stl" class="FileUpload" id="dropZone" multiple></input>
                                     </div>
                             </div>
                         </div>
@@ -187,12 +187,79 @@
                                     </tfoot>
                                   </table>
                             </div>
-                            <div class="row mt-3">
+                            <div class="row">
+                                <div class="col-75">
+                                  <div class="container">
+                                    <form action="/action_page.php">
+                              
+                                      <div class="row">
+                                        <div class="col-50">
+                                          <h3>Address</h3>
+                                          <label for="fname"><i class="fa fa-user"></i> Vorname</label>
+                                          <input type="text" id="fname" name="firstname" placeholder="Hans">
+                                          <label for="email"><i class="fa fa-envelope"></i> Name</label>
+                                          <input type="text" id="email" name="email" placeholder="Meier">
+                                          
+                                    
+                              
+                                          <div class="row">
+                                            <div class="col-50">
+                                                <label for="adr"><i class="fa fa-address-card-o"></i> Addresse</label>
+                                                <input type="text" id="adr" name="address" placeholder="">
+                                            </div>
+                                            <div class="col-50">
+                                                <label for="city"><i class="fa fa-institution"></i> Stadt</label>
+                                                <input type="text" id="city" name="city" placeholder="">
+                                            </div>
+                                            <div class="col-50">
+                                              <label for="zip">Adresszusatz</label>
+                                              <input type="text" id="zip" name="zip" placeholder="">
+                                            </div>
+                                            <div class="col-50">
+                                                <label for="zip">Postleitzahl</label>
+                                                <input type="text" id="zip" name="zip" placeholder="10001">
+                                              </div>
+                                          </div>
+                                        </div>
+                              
+                                        <div class="col-50">
+                                          <h3>Persönliche Informationen</h3>
+                                          <!--
+                                          <div class="icon-container">
+                                            <i class="fa fa-cc-visa" style="color:navy;"></i>
+                                            <i class="fa fa-cc-amex" style="color:blue;"></i>
+                                            <i class="fa fa-cc-mastercard" style="color:red;"></i>
+                                            <i class="fa fa-cc-discover" style="color:orange;"></i>
+                                          </div>
+                                          -->
+                                          <label for="cname">Email</label>
+                                          <input type="text" id="cname" name="cardname" placeholder="hans.meier@example.com">
+                                          <label for="ccnum">Unternehmen</label>
+                                          <input type="text" id="ccnum" name="cardnumber" placeholder="1111-2222-3333-4444">
+                                          <label for="expmonth">Telefonnummer</label>
+                                          <input type="text" id="expmonth" name="expmonth" placeholder="+49 175 87346346">
+                              
+                                          <div class="row">
+                                            <div class="col-50">
+                                              <label for="expyear">Weitere Anmerkungen</label>
+                                              <input type="text" id="expyear" name="expyear" placeholder="Wichtig ist auch...">
+                                            </div>
+                                          </div>
+                                        </div>
+                              
+                                      </div>
+                                      <input type="submit" value="Jetzt bestellen" class="btn" v-on:click="doOrder()">
+                                    </form>
+                                  </div>
+                                </div>
+                            <!--
+                                <div class="row mt-3">
                                 <div class="offset-1 col-10 pt-4 d-flex justify-content-end">
-                                    <!-- Order Button -->
-                                    <div class="btn btn-success" v-on:click="doOrder()"> Jetzt Bestellen</div>
+                                    
+                                    <div class="btn btn-success" id="btn-order-now" v-on:click="doOrder()"> Jetzt Bestellen</div>
                                 </div>
                             </div>
+                        -->
                         </div>
                     </template>
 
