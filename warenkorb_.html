@@ -105,7 +105,7 @@
                                 </div>
                                 <!-- Actions Container -->
                                 <div class="row actions mt-4">
-                                    <div class="col-8">
+                                    <div class="col-3">
                                         <!-- Delete Button -->
                                         <div class="btn btn-outline-primary pl-4 pr-4" v-on:click="removeProduct(index)">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-x" viewBox="0 0 16 16">
@@ -113,9 +113,13 @@
                                                 <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zm3.915 10L3.102 4h10.796l-1.313 7h-8.17zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
                                             </svg>
                                         </div>
-                                        <!-- Kopie Button -->
+                                    </div>
+                                    <!-- Kopie Button -->
+                                    <div class="col-3">
                                         <div class="btn btn-outline-primary" v-on:click="cloneProduct(product)">Kopieren</div>
-                                        <!-- Additional Action -->
+                                    </div>
+                                    <!-- Additional Action -->
+                                    <div class="col-3">
                                         <div class="btn btn-outline-primary">Aktion-2</div>
                                     </div>
                                 </div>
@@ -136,8 +140,13 @@
     
                         <div class="row mt-3">
                             <!-- To Cart button -->
-                            <div class="offset-1 col-10 pt-4 d-flex justify-content-end">
-                                <div class="btn btn-success" v-on:click="() => {toCart = true;}"> Zur Kasse</div>
+                            <div class="offset-4 col-4 pt-4 d-flex justify-content-end">
+                                <button
+                                        type="button"
+                                        class="btn btn-lg btn-primary"
+                                        v-on:click="() => {toCart = true;}"
+                                        :disabled="!products || products.length < 1 "> Zur Kasse
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -187,80 +196,83 @@
                                     </tfoot>
                                   </table>
                             </div>
-                            <div class="row">
-                                <div class="col-75">
-                                  <div class="container">
-                                    <form action="/action_page.php">
-                              
+                            <div class="col-12">
+                                <form action="/action_page.php">
+
+                                  <div class="row">
+                                    <div class="offset-3 col-6">
+                                      <h3>Address</h3>
+                                      <label for="fname"><i class="fa fa-user"></i> Vorname</label>
+                                      <input type="text" id="fname" name="firstname"  v-model="customer.vorname" placeholder="Vorname">
+                                      <label for="name"><i class="fa fa-envelope"></i> Name</label>
+                                      <input type="text" id="name" name="name"  v-model="customer.name" placeholder="Name">
+
+
+
                                       <div class="row">
-                                        <div class="col-50">
-                                          <h3>Address</h3>
-                                          <label for="fname"><i class="fa fa-user"></i> Vorname</label>
-                                          <input type="text" id="fname" name="firstname" placeholder="Hans">
-                                          <label for="email"><i class="fa fa-envelope"></i> Name</label>
-                                          <input type="text" id="email" name="email" placeholder="Meier">
-                                          
-                                    
-                              
-                                          <div class="row">
-                                            <div class="col-50">
-                                                <label for="adr"><i class="fa fa-address-card-o"></i> Addresse</label>
-                                                <input type="text" id="adr" name="address" placeholder="">
-                                            </div>
-                                            <div class="col-50">
-                                                <label for="city"><i class="fa fa-institution"></i> Stadt</label>
-                                                <input type="text" id="city" name="city" placeholder="">
-                                            </div>
-                                            <div class="col-50">
-                                              <label for="zip">Adresszusatz</label>
-                                              <input type="text" id="zip" name="zip" placeholder="">
-                                            </div>
-                                            <div class="col-50">
-                                                <label for="zip">Postleitzahl</label>
-                                                <input type="text" id="zip" name="zip" placeholder="10001">
-                                              </div>
-                                          </div>
+                                        <div class="col-6">
+                                            <label for="adr"><i class="fa fa-address-card-o"></i> Addresse</label>
+                                            <input type="text" id="adr"  v-model="customer.address" name="address" placeholder="">
                                         </div>
-                              
-                                        <div class="col-50">
-                                          <h3>Persönliche Informationen</h3>
-                                          <!--
-                                          <div class="icon-container">
-                                            <i class="fa fa-cc-visa" style="color:navy;"></i>
-                                            <i class="fa fa-cc-amex" style="color:blue;"></i>
-                                            <i class="fa fa-cc-mastercard" style="color:red;"></i>
-                                            <i class="fa fa-cc-discover" style="color:orange;"></i>
-                                          </div>
-                                          -->
-                                          <label for="cname">Email</label>
-                                          <input type="text" id="cname" name="cardname" placeholder="hans.meier@example.com">
-                                          <label for="ccnum">Unternehmen</label>
-                                          <input type="text" id="ccnum" name="cardnumber" placeholder="1111-2222-3333-4444">
-                                          <label for="expmonth">Telefonnummer</label>
-                                          <input type="text" id="expmonth" name="expmonth" placeholder="+49 175 87346346">
-                              
-                                          <div class="row">
-                                            <div class="col-50">
-                                              <label for="expyear">Weitere Anmerkungen</label>
-                                              <input type="text" id="expyear" name="expyear" placeholder="Wichtig ist auch...">
-                                            </div>
-                                          </div>
+                                        <div class="col-6">
+                                            <label for="city"><i class="fa fa-institution"></i> Stadt</label>
+                                            <input type="text" id="city"  v-model="customer.city" name="city" placeholder="">
                                         </div>
-                              
+                                        <div class="col-6">
+                                          <label for="zip">Adresszusatz</label>
+                                          <input type="text" id="address_zsatz" name="zip"  v-model="customer.address_2" placeholder="">
+                                        </div>
+                                        <div class="col-50">
+                                            <label for="zip">Postleitzahl</label>
+                                            <input type="text" id="zip" name="zip"  v-model="customer.zip" placeholder="10001">
+                                          </div>
                                       </div>
-                                      <input type="submit" value="Jetzt bestellen" class="btn" v-on:click="doOrder()">
-                                    </form>
+                                    </div>
+
+                                    <div class="offset-3 col-6">
+                                      <h3>Persönliche Informationen</h3>
+                                      <!--
+                                      <div class="icon-container">
+                                        <i class="fa fa-cc-visa" style="color:navy;"></i>
+                                        <i class="fa fa-cc-amex" style="color:blue;"></i>
+                                        <i class="fa fa-cc-mastercard" style="color:red;"></i>
+                                        <i class="fa fa-cc-discover" style="color:orange;"></i>
+                                      </div>
+                                      -->
+                                        <label for="cname">Email</label>
+                                        <input type="text" id="email" name="email" v-model="customer.email" placeholder="hans.meier@example.com">
+                                        <div class="d-flex align-items-center">
+                                            <input type="checkbox" class="" id="TQ-Mitarbeiter" name="TQ_Mitarbeiter"  v-model="customer.tq_mitarbeiter">
+                                            <label for="TQ-Mitarbeiter" class="ml-2 mt-2">TQ-Mitarbeiter</label>
+                                        </div>
+                                        <label for="ccnum">Unternehmen</label>
+                                        <input type="text" id="ccnum" name="cardnumber"  v-model="customer.unternehemn" placeholder="1111-2222-3333-4444">
+                                        <label for="expmonth">Telefonnummer</label>
+                                        <input type="text" id="expmonth" name="expmonth"  v-model="customer.tel" placeholder="+49 175 87346346">
+
+                                      <div class="row">
+                                        <div class="col-6">
+                                          <label for="expyear">Weitere Anmerkungen</label>
+                                          <input type="text" id="expyear" name="expyear"  v-model="customer.note" placeholder="Wichtig ist auch...">
+                                        </div>
+                                      </div>
+                                    </div>
                                   </div>
-                                </div>
+                                </form>
+                            </div>
                             <!-- -->
+                            <div class="col-12">
                                 <div class="row mt-3">
-                                <div class="offset-1 col-10 pt-4 d-flex justify-content-end">
-                                    
-                                    <div class="btn btn-success" id="btn-order-now" v-on:click="doOrder()"> Jetzt Bestellen</div>
+                                    <div class="offset-4 col-4 pt-4 d-flex justify-content-end">
+                                        <button type="button"
+                                                class="btn btn-success"
+                                                id="btn-order-now" v-on:click="doOrder()">
+                                            Jetzt bestellen
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                        <!-- -->
-                        </div>
                     </template>
 
                     <!-- Thank you Template -->
@@ -281,10 +293,13 @@
                 el: '#app',
                 created(){
                     this.getMaterials();
-                    __this = this;
+                    const __this = this;
                     this.stl_viewer = new StlViewer( document.createElement('div'), 
                     {
                         models:[],
+                        model_loaded_callback(model_id){
+                            __this.after_model_load_callback(model_id);
+                        },
                         loading_progress_callback(load_status, load_session){
                             __this.loadingModels = true;
 
@@ -293,7 +308,8 @@
                             __this.loadingModels = false;
                             setTimeout(() => {
                                 __this.stl_viewer.models.forEach(model => {
-                                    content = document.getElementById('model_view_'+model.id);
+                                    const content = document.getElementById('model_view_'+model.id);
+                                    content.classList.remove('loading-model')
                                     new StlViewer( content, {models: [{id: 1, local_file: model.local_file}], canvas_width: 200, canvas_height: 200})
                                     //content.style.background = 'red';
                                 })
@@ -309,6 +325,7 @@
                     orderSent: false,
                     materials: [],
                     products: [],
+                    customer: {}
                 },
                 computed: {
                     gesamtpreis: function() {
@@ -321,53 +338,25 @@
                         this.products.splice(index, 1);
                     },
                     cloneProduct(product){
-                        cloned_product = JSON.parse(JSON.stringify(product));
-                        model = __this.stl_viewer.models.find(item => item.id === cloned_product.model_id);
+                        const cloned_product = JSON.parse(JSON.stringify(product));
 
-                        container_id = 'model_view_'+ cloned_product.model_id + '_copy_after_'+this.products.length;
-                        copy_container = document.createElement('div');
-                        copy_container.setAttribute('id', container_id)
-                        copy_container.classList.add('model_3d_view')
+                        const container_id = 'model_view_'+ cloned_product.model_id + '_copy_after_'+this.products.length;
+                        const container = this.create_model_container(container_id);
+                        cloned_product._3dModel = container.outerHTML;
 
-                        cloned_product._3dModel = copy_container.outerHTML;
                         this.products.push(cloned_product);
 
                         setTimeout(() => {
-                            new StlViewer( document.getElementById(container_id), {models: [{id: 1, local_file: model.local_file}], canvas_width: 200, canvas_height: 200})
-                        }, 30)
+                            const model_file = this.base_64_to_file(cloned_product.model_file, cloned_product.file_name);
+                            const stl_view = StlViewer( document.getElementById(container_id), {models: [{id: 1, local_file: model_file}], canvas_width: 200, canvas_height: 200})
+                        }, 60)
 
                     },
                     uploadMultiFiles(e) {
-                        var idx = 0;
+                        let idx = 0;
                         for(file of e.target.files) {
-                            __this = this;
-                            idx = idx+1;
-                            this.stl_viewer.model_loaded_callback = (model_id) => {
-                                container = document.createElement('div')
-                                container.setAttribute('id', 'model_view_'+model_id)
-                                container.classList.add('model_3d_view')
-                                const reader = new FileReader();
-                                reader.readAsDataURL(file);
-                                reader.onload = () => {
-                                    __this.products.push({
-                                        model_id: model_id,
-                                        _3dModel: container.outerHTML,
-                                        model_file: reader.result,
-                                        file_type: file.name.split('.').pop(),
-                                        file_name: __this.stl_viewer.get_model_info(model_id).name,
-                                        volumen: Math.round(__this.stl_viewer.get_model_info(model_id).volume * 0.1) / 100,
-                                        xsize: Math.round(__this.stl_viewer.get_model_mesh(model_id).geometry.maxx * 10) / 100 * 2,
-                                        ysize: Math.round(__this.stl_viewer.get_model_mesh(model_id).geometry.maxy * 10) / 100 * 2,
-                                        zsize: Math.round(__this.stl_viewer.get_model_mesh(model_id).geometry.maxz * 10) / 100 * 2,
-                                        menge: 1,
-                                        preis: 0,
-                                        post_processing_list: []
-                                    });
-                                };
-                                file.arrayBuffer().then(buffer => {
-                                })
-                            };
                             this.stl_viewer.add_model({id: idx, local_file: file});
+                            idx = idx + 1;
                         }
                     },
 
@@ -405,20 +394,87 @@
                     }, 
                     // set order in db
                     doOrder(){
+                        
                         body = {
                             request: 'set_order',
                             data: {
-                                customer_id: 1,
+                                customer: this.customer,
                                 warencorb: this.products,
                                 total_price: this.gesamtpreis
                             }
                         }
-                        axios.post('http://localhost:3300', body).then( response => {
-                            if(response.data === 'ok') {
-                                this.orderedSuccess = true;
+                        
+                        axios.post('http://localhost:3300', body).then(res => {
+        // do good things
+                        })
+                        .catch(err => {
+                            if (err.response) {
+                                alert("1");
+                            // client received an error response (5xx, 4xx)
+                            } else if (err.request) {
+                                alert("2");
+                            // client never received a response, or request never left
+                            } else {
+                                alert("3");
+                            // anything else
                             }
                         })
+                       
+                    
+                        
                     },
+
+                    // define function after model is loaded
+                    after_model_load_callback(model_id) {
+                        const __this = this;
+                        const model = __this.stl_viewer.models.find(model => model.id == model_id);
+                        const container = this.create_model_container('model_view_'+model_id)
+                        const file_name = this.stl_viewer.get_model_info(model_id).name
+                        let reader = new FileReader();
+                        reader.readAsDataURL(model.local_file);
+                        reader.onload = () => {
+                            let base_64 = reader.result;
+                            __this.products.push({
+                                model_id: model_id,
+                                _3dModel: container.outerHTML,
+                                model_file: base_64,
+                                file_type: file_name.split('.').pop(),
+                                file_name: __this.stl_viewer.get_model_info(model_id).name,
+                                volumen: Math.round(__this.stl_viewer.get_model_info(model_id).volume * 0.1) / 100,
+                                xsize: Math.round(__this.stl_viewer.get_model_mesh(model_id).geometry.maxx * 10) / 100 * 2,
+                                ysize: Math.round(__this.stl_viewer.get_model_mesh(model_id).geometry.maxy * 10) / 100 * 2,
+                                zsize: Math.round(__this.stl_viewer.get_model_mesh(model_id).geometry.maxz * 10) / 100 * 2,
+                                menge: 1,
+                                preis: 0,
+                                post_processing_list: []
+                            });
+                        };
+                    },
+
+                    create_model_container(container_id) {
+                        const container = document.createElement('div')
+                        container.setAttribute('id', container_id)
+                        container.classList.add('model_3d_view')
+                        container.classList.add('loading-model')
+                        return container;
+                    },
+
+                    base_64_to_file(base_64, file_name){
+                        // convert base64 to raw binary data held in a string
+                        // doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
+                        var byteString = atob(base_64.split(',')[1]);
+                        // separate out the mime component
+                        var mimeString = base_64.split(',')[0].split(':')[1].split(';')[0];
+                        // write the bytes of the string to an ArrayBuffer
+                        var ab = new ArrayBuffer(byteString.length);
+                        var dw = new DataView(ab);
+                        for(var i = 0; i < byteString.length; i++) {
+                            dw.setUint8(i, byteString.charCodeAt(i));
+                        }
+                        // write the ArrayBuffer to a blob, and you're done
+                        blob = new Blob([ab], {type: mimeString})
+                        return  new File([blob], file_name);
+                    }
 
                 }
          
