@@ -3,23 +3,23 @@
     <head>
         <meta charset="UTF-8">
         <title>Warenkorb</title>
-            <!-- import Vue.js -->
+            <!-- Vue importieren. (Webframework mit diversen Funktionen)-->
             <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-            <!-- import Axios -->
+            <!-- Axios importieren (HTTP-Client, der mit in Kombination mit Vue u.a. Asynchronität ermöglicht) -->
             <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
          
             <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-            <!-- import Bootstrap -->
+            <!-- Bootstrap importieren (CSS-Tool für verschiedene Design-Optionen) -->
             <link rel="stylesheet" type="text/css" href="shopping_cart.css">
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
-            <!-- ionicons icons-->
+            <!-- Einbindung von Ionicons (Beinhaltet diverse Icons)-->
             <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
             <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
-            <!-- import Custom StyleSheet -->
+            <!-- Eigenes Css-Stylesheet einbinden -->
             <link rel="stylesheet" type="text/css" href="css/custom.css">
-            <!-- import Custom Views -->
+            <!-- Diverse JS-Datenbanken importieren, die ersten drei zur 3D-Modell-Anzeige -->
             <script src="viewer.min.js"></script>     
             <script src="js/jquery-3.6.0.min.js"></script>
             <script src="js/popper.min.js"></script>
@@ -28,18 +28,18 @@
         <body class="body">
             <div id="app" class="container-fluid">
                 
-                <!-- Init Models template -->
+                <!-- Initialisieren der Basis der ersten Seite (Modell-Upload und Anzeige) -->
                 <template v-if="!toCart">
-                    <!-- Loader -->
+                    <!-- Laden der 3D-Modelle -->
                     <template v-if="loadingModels">
                         <div class="lds-spinner">
                             <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
                         </div>
                     </template>
-                    <!-- Models upload container -->
+                    <!-- Container, in die die Modelle geladen werden -->
                     <div class="mt-3">
                         <div class="row mb-3">
-                            <!-- Upload Button -->
+                            <!-- Knopf, der Hochladen auslöst -->
                             <div class="offset-1 col-10">
                                 <div class="btn btn-outline-secondary">
                                     <input id="btn-upload" hidden type="file"  v-on:change='uploadMultiFiles($event)' accept=".stl" class="FileUpload" multiple></input>
@@ -47,18 +47,18 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- Product/Model Container -->
+                        <!-- Tatsächlicher Container, der 3D-Modell und Daten enthält -->
                         <div v-for="(product, index) in products" class="row mb-3">
                             <div class="offset-1 col-10 border border-secondary rounded p-2">
                                 <div class="row">
                                     <div class="col-4">
                                         <div class="row">
-                                            <!-- Model 3d View (Image) -->
+                                            <!-- Anzeige des 3D-Modells -->
                                             <div class="col-10" >
                                                 <div class="model-view-container" v-html="product._3dModel"></div>
                                             </div>
                                         </div>
-                                        <!-- Model properties (name, size, volume) -->
+                                        <!-- Anzeige der Modell-Eigenschaften (Name, Größe, Volumen) -->
                                         <div class="row">
                                             <div class="col-10">{{product.file_name}}</div>
                                             <div class="col-10"> {{product.xsize}} x {{product.ysize}} x {{product.zsize}} cm</div>
@@ -67,7 +67,7 @@
                                     </div>
                                     <div class="col-6">
                                         <div class="row">
-                                            <!-- DropDown For Materials -->
+                                            <!-- Dropdown-Menü zur Auswahl der Materialien -->
                                             <div class="col-8">
                                                 <label>Material:</label>
                                                 <select  id="material_dropdown" class="custom-select mr-sm-2" v-on:change="onMaterialChange(index, $event)">
@@ -76,7 +76,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <!-- DropDown for Nachbearbeitung -->
+                                        <!-- Dropdown-Menü zur Auswahl der Nachbearbeitungen -->
                                         <div class="row mt-3">
                                             <div class="col-8">
                                                 <label>Nachbearbeitung:</label>
@@ -86,7 +86,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <!-- Input Quantity -->
+                                        <!-- Auswahl der Anzahl des Produktes -->
                                         <div class="row mt-3">
                                             <div class="col-8">
                                                 <label>Stückzahl:</label>
@@ -96,17 +96,17 @@
                                     </div>
                                     <div class="col-2">
                                         <div class="d-flex flex-column justify-content-end align-items-end pr-2" style="height: 100%;">
-                                            <!-- Total Price -->
+                                            <!-- Anzeige des Gesamtpreises -->
                                             <div>{{product.preis ? (product.preis * product.menge).toFixed(2) + ' €': '-.-'}}</div>
-                                            <!-- Price per unit -->
+                                            <!-- Anzeige des Stückpreises -->
                                             <div>{{product.preis ? (product.preis).toFixed(2) + ' € ': '-.-'}}/Stk</div>
                                         </div>
                                     </div>
                                 </div>
-                                <!-- Actions Container -->
+                                <!-- Container, der die Buttons für Aktionen enthält -->
                                 <div class="row actions mt-4">
                                     <div class="col-3">
-                                        <!-- Delete Button -->
+                                        <!-- Knopf zum Löschen eines Objektes -->
                                         <div class="btn btn-outline-primary pl-4 pr-4" v-on:click="removeProduct(index)">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-x" viewBox="0 0 16 16">
                                                 <path d="M7.354 5.646a.5.5 0 1 0-.708.708L7.793 7.5 6.646 8.646a.5.5 0 1 0 .708.708L8.5 8.207l1.146 1.147a.5.5 0 0 0 .708-.708L9.207 7.5l1.147-1.146a.5.5 0 0 0-.708-.708L8.5 6.793 7.354 5.646z"/>
@@ -126,7 +126,7 @@
                             </div>
                         </div>
     
-                        <!-- Drag & Drop Area -->
+                        <!-- Drag & Drop-Zone -->
                         <div class="row mb-3">
                             <div class=" dropZoneContainer offset-1 col-10 pt-4 pb-5 border border-secondary rounded p-2 d-flex flex-column align-items-center justify-content-center">
                                     <ion-icon size="large" name="cloud-upload-outline"></ion-icon>
@@ -151,18 +151,17 @@
                         </div>
                     </div>
 
-                    <!-- STL View Container -->
-                    <div hidden id="stl-cont" class="stl-cont"></div>
                 </template>
 
                 <template v-else>
-                    <!-- Cart Template -->
+                    <!-- Initialisieren der Basis der zweiten Seite (Warenkorb / Checkout) -->
                     <template v-if="!orderedSuccess">
                         <div class="row mt-4">
                             <div class="col-12">
-                                <!-- Table of purchased models/products (orders)-->
+                                <!-- Tabelle mit den vorher hochgeladenen Dateien und ausgewählten Optionen-->
                                 <table class="table table-striped caption-top" style="top:0; right:0;">
                                     <thead class="table-dark">
+                                        <!-- Obere Zeile der Tabelle -->
                                       <tr>
                                         <th scope="col">#</th>
                                         <th>Produkt</th>
@@ -176,6 +175,7 @@
                                       </tr>
                                     </thead>
                                     <tbody>
+                                        <!-- Untere Zeilen der Tabelle -->
                                         <tr v-for="(product, idx) of products">
                                             <td>{{idx + 1}}</td>
                                             <td>{{product.file_name}}</td>
@@ -189,6 +189,7 @@
                                         </tr>
                                     </tbody>
                                     <tfoot class="table-dark">
+                                        <!-- Anzeige des Gesamtpreises unter der Tabelle -->
                                         <tr>
                                             <td colspan="8">Total</td>
                                             <td>{{gesamtpreis.toFixed(2)}} €</td>
@@ -275,7 +276,7 @@
                        <!-- -->
                     </template>
 
-                    <!-- Thank you Template -->
+                    <!--Initialisieren der Basis der dritten Seite (Danke) -->
                     <template v-else>
                         <div class="row mt-3">
                             <div class="offset-1 col-10 pt-4 d-flex justify-content-end">
@@ -287,10 +288,12 @@
 
             </div>
 
-         <!-- Hier an die Stelle von "volumen, xsize, ysize, zsize, preis" dentsprechenden Werte der DB einspielen. -->
+    <!-- Javascript-Funktionalität -->
         <script>
+            // <!-- Neues Vue-Element -->
             const ProductPage = new Vue({
                 el: '#app',
+                // <!-- Funktionalität des 3D-Modell-Loaders -->
                 created(){
                     this.getMaterials();
                     const __this = this;
@@ -318,6 +321,7 @@
                         
                     });
                 },
+                // <!-- Berechnung der Variablen -->
                 data: {
                     orderedSuccess: false,
                     toCart: false,
@@ -333,6 +337,7 @@
                         return this.total_price;
                     }
                 },
+                // <!-- Funktionalitäten der Knöpfe. Entfernen, Kopieren -->
                 methods: {
                     removeProduct(index){
                         this.products.splice(index, 1);
@@ -352,6 +357,7 @@
                         }, 60)
 
                     },
+                     // <!-- Multiupload-Funktion -->
                     uploadMultiFiles(e) {
                         let idx = 0;
                         for(file of e.target.files) {
@@ -360,7 +366,7 @@
                         }
                     },
 
-                    // Display Material Name
+               //      <!-- Material -->
                     getMaterialName(id) {
                         if(this.materials && this.materials.length < 1) {
                             return "-";
@@ -368,7 +374,7 @@
                         return this.materials.find(element => element.value == id).name;
                     },
 
-                    // fire on change material
+                   //  <!-- FireonMaterialChange: Bei Änderung des Materials sollen Werte angepasst werden -->
                     onMaterialChange(itemIndex, e){
                         this.getPostProcessing(e.target.value, itemIndex);
                         price = parseFloat(e.target[e.target.selectedIndex].getAttribute('data-price').replace(',', '.'))
@@ -376,23 +382,23 @@
                         product.material = e.target.value;
                         product.preis = product.volumen * price;
                     },
-                    // set model Nachbearbeitung
+                    // <!-- Nachbearbeitungen festlegen -->
                     onPostProcessChange(itemIndex, e){
                         this.products[itemIndex].post_process = e.target.value;
                     },
-                    // Get matrials list from DB
+                    // <!-- Materialien aus DB ziehen -->
                     getMaterials(){
                         axios.get('http://localhost:3300?request=get_materials').then( response => {
                             this.materials = response.data;
                         })
                     }, 
-                    // Get nachbearbeitung list from DB
+                    // <!-- Nachbearbeitungen aus DB ziehen -->
                     getPostProcessing(material_id, product_idx){
                         axios.get('http://localhost:3300?request=get_post_processing&material_id='+material_id).then( response => {
                             this.products[product_idx].post_processing_list = response.data;
                         })
                     }, 
-                    // set order in db
+                     //<!-- Ordnung in DB setzen -->
                     doOrder(){
                         
                         body = {
