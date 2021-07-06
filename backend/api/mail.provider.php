@@ -10,17 +10,16 @@ require 'PHPMailer-master/src/SMTP.php';
 //require 'PHPMailerAutoload.php';
 
 function get_content_for_customer($data){
-  return sprintf("Sehr geehrte/r Herr/Frau %s <br><br> vielen Dank f&Uuml;r Ihre Bestellung. Wir werden Sie benachrichtigen, sobald Ihr(e) Artikel versandt wurde(n)<br>
+  return sprintf("Sehr geehrte/r Herr/Frau %s <br><br> vielen Dank f&uuml;r Ihre Bestellung. Wir werden Sie benachrichtigen, sobald Ihr(e) Artikel versandt wurde(n)<br>
       Ihre Bestellung:<br> 
-      Products:
       <table border='1' cellspacing='5'>
         <tr>
-          <td> Model Name </td>
+          <td> Modellname </td>
           <td> Material </td>
           <td> Nachbearbeitung </td>
           <td> Anzahl </td>
           <td> Einheitspreis </td>
-          <td> Total Preis </td>
+          <td> Gesamtpreis </td>
         </tr>
         %s
       </table>
@@ -64,15 +63,14 @@ function get_content_for_customer($data){
 function get_content_for_tq($data){
   return sprintf("Soeben wurde eine Bestellung abgegeben <br>
       Bestellung:<br> 
-      Products:
       <table border='1' cellspacing='5'>
         <tr>
-          <td> Model Name </td>
+          <td> Modellname </td>
           <td> Material </td>
           <td> Nachbearbeitung </td>
           <td> Anzahl </td>
           <td> Einheitspreis </td>
-          <td> Total Preis </td>
+          <td> Gesamtpreis </td>
         </tr>
         %s
       </table>
