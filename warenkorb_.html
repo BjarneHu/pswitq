@@ -146,6 +146,7 @@
                                         class="btn btn-lg btn-primary"
                                         v-on:click="() => {toCart = true;}"
                                         :disabled="!products || products.length < 1 "> Zur Kasse
+
                                 </button>
                             </div>
                         </div>
@@ -202,7 +203,7 @@
 
                                   <div class="row">
                                     <div class="offset-3 col-6">
-                                      <h3>Address</h3>
+                                      <h3>Rechnungsadresse</h3>
                                       <label for="fname"><i class="fa fa-user"></i> Vorname</label>
                                       <input type="text" id="fname" name="firstname"  v-model="customer.vorname" placeholder="Vorname">
                                       <label for="name"><i class="fa fa-envelope"></i> Name</label>
@@ -216,12 +217,12 @@
                                             <input type="text" id="adr"  v-model="customer.address" name="address" placeholder="">
                                         </div>
                                         <div class="col-6">
-                                            <label for="city"><i class="fa fa-institution"></i> Stadt</label>
+                                            <label for="city"><i class="fa fa-institution"></i> Ort</label>
                                             <input type="text" id="city"  v-model="customer.city" name="city" placeholder="">
                                         </div>
                                         <div class="col-6">
-                                          <label for="zip">Adresszusatz</label>
-                                          <input type="text" id="address_zsatz" name="zip"  v-model="customer.address_2" placeholder="">
+                                          <label for="address_zusatz">Adresszusatz (c/o..)</label>
+                                          <input type="text" id="address_zusatz" name="zip"  v-model="customer.address_2" placeholder="">
                                         </div>
                                         <div class="col-50">
                                             <label for="zip">Postleitzahl</label>
@@ -261,6 +262,8 @@
                                   </div>
                                 </form>
                             </div>
+
+                            
                             <!-- -->
                             <div class="col-12">
                                 <div class="row mt-3">
@@ -275,7 +278,7 @@
                             </div>
                        <!-- -->
                     </template>
-
+                    
                     <!--Initialisieren der Basis der dritten Seite (Danke) -->
                     <template v-else>
                         <div class="row mt-3">
@@ -287,6 +290,7 @@
                 </template>
 
             </div>
+            
 
     <!-- Javascript-Funktionalität -->
         <script>
@@ -329,7 +333,15 @@
                     orderSent: false,
                     materials: [],
                     products: [],
-                    customer: {}
+                    customer: {
+                        name: 'Max',
+                        vorname: 'Muster',
+                        address: "irgendwo",
+                        zip: 899,
+                        city: 'Berlin',
+                        tel: '2133',
+                        email: 'ichrak.allagui@hotmail.com'
+                    }
                 },
                 computed: {
                     gesamtpreis: function() {
@@ -380,11 +392,13 @@
                         price = parseFloat(e.target[e.target.selectedIndex].getAttribute('data-price').replace(',', '.'))
                         product = this.products[itemIndex];
                         product.material = e.target.value;
+                        product.material_name = this.getMaterialName(e.target.value);
                         product.preis = product.volumen * price;
                     },
                     // <!-- Nachbearbeitungen festlegen -->
                     onPostProcessChange(itemIndex, e){
                         this.products[itemIndex].post_process = e.target.value;
+                        this.products[itemIndex].post_process_name = this.products[itemIndex].post_processing_list.find(item => item.value ==  e.target.value).name;
                     },
                     // <!-- Materialien aus DB ziehen -->
                     getMaterials(){
@@ -400,34 +414,38 @@
                     }, 
                      //<!-- Ordnung in DB setzen -->
                     doOrder(){
-                        
-                        body = {
-                            request: 'set_order',
-                            data: {
-                                customer: this.customer,
-                                warencorb: this.products,
-                                total_price: this.gesamtpreis
-                            }
+                        if (!this.customer.name){
+                            alert("Bitte Name eingeben");
                         }
-                        
-                        axios.post('http://localhost:3300', body).then(res => {
-        // do good things
-                        })
-                        .catch(err => {
-                            if (err.response) {
-                                alert("1");
-                            // client received an error response (5xx, 4xx)
-                            } else if (err.request) {
-                                alert("2");
-                            // client never received a response, or request never left
-                            } else {
-                                alert("3");
-                            // anything else
+                        else if (!this.customer.city) {
+                            alert("Bitte Ort eingeben");
+
+                        }
+                        else if (!this.customer.vorname) {
+                            alert("Bitte Vorname eingeben");
+                        }
+                        else if (!this.customer.zip) {
+                            alert("Bitte PLZ eingeben");
+                        }
+                        else if (!this.customer.email) {
+                            alert("Bitte Emailadresse eingeben");
+                        }
+                       
+                        else {
+                            body = {
+                                request: 'set_order',
+                                data: {
+                                    customer: this.customer,
+                                    warencorb: this.products,
+                                    total_price: this.gesamtpreis
+                                }
+                            }
+                            axios.post('http://localhost:3300', body).then(res => {
+                                if(response.data === 'ok') {
+                                this.orderedSuccess = true;
                             }
                         })
-                       
-                    
-                        
+                    }
                     },
 
                     // define function after model is loaded
