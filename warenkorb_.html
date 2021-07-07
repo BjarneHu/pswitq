@@ -118,7 +118,7 @@
                                     <div class="col-3">
                                         <div class="btn btn-outline-primary" v-on:click="cloneProduct(product)">Kopieren</div>
                                     </div>
-                                    <!-- Additional Action -->
+                                    <!-- Zusätzlicher Button bei Bedarf -->
                                     <div class="col-3">
                                         <div class="btn btn-outline-primary">Aktion-2</div>
                                     </div>
@@ -139,7 +139,7 @@
                         </div>
     
                         <div class="row mt-3">
-                            <!-- To Cart button -->
+                            <!-- Zur Kasse-Button -->
                             <div class="offset-4 col-4 pt-4 d-flex justify-content-end">
                                 <button
                                         type="button"
@@ -198,6 +198,8 @@
                                     </tfoot>
                                   </table>
                             </div>
+                            
+                            <!-- Felder für Bestelldaten. Labels sind selbstsprechend (fname =first name, name = Nachname, E-Mail = E-Mail, etc. -->
                             <div class="col-12">
                                 <form action="/action_page.php">
 
@@ -264,7 +266,7 @@
                             </div>
 
                             
-                            <!-- -->
+                            <!-- Bestellung bestätigen(-Knopf) -->
                             <div class="col-12">
                                 <div class="row mt-3">
                                     <div class="offset-4 col-4 pt-4 d-flex justify-content-end">
@@ -276,7 +278,6 @@
                                     </div>
                                 </div>
                             </div>
-                       <!-- -->
                     </template>
                     
                     <!--Initialisieren der Basis der dritten Seite (Danke) -->
@@ -333,7 +334,7 @@
                         
                     });
                 },
-                // <!-- Berechnung der Variablen -->
+                <!-- Berechnung der Variablen -->
                 data: {
                     orderedSuccess: false,
                     toCart: false,
@@ -350,7 +351,7 @@
                         return this.total_price;
                     }
                 },
-                // <!-- Funktionalitäten der Knöpfe. Entfernen, Kopieren -->
+                <!-- Funktionalitäten der Knöpfe. Entfernen, Kopieren und zusätzlicher Knopf-->
                 methods: {
                     removeProduct(index){
                         this.products.splice(index, 1);
@@ -380,7 +381,7 @@
                         }, 100)
 
                     },
-                     // <!-- Multiupload-Funktion -->
+                    <!-- Multiupload-Funktion -->
                     uploadMultiFiles(e) {
                         let idx = 0;
                         for(file of e.target.files) {
@@ -389,7 +390,7 @@
                         }
                     },
 
-               //      <!-- Material -->
+                    <!-- Material -->
                     getMaterialName(id) {
                         if(this.materials && this.materials.length < 1) {
                             return "-";
@@ -397,7 +398,7 @@
                         return this.materials.find(element => element.value == id).name;
                     },
 
-                   //  <!-- FireonMaterialChange: Bei Änderung des Materials sollen Werte angepasst werden -->
+                    <!-- FireonMaterialChange: Bei Änderung des Materials sollen Werte angepasst werden -->
                     onMaterialChange(itemIndex, e){
                         this.getPostProcessing(e.target.value, itemIndex);
                         price = parseFloat(e.target[e.target.selectedIndex].getAttribute('data-price').replace(',', '.'))
@@ -406,24 +407,24 @@
                         product.material_name = this.getMaterialName(e.target.value);
                         product.preis = product.volumen * price;
                     },
-                    // <!-- Nachbearbeitungen festlegen -->
+                    <!-- Nachbearbeitungen festlegen -->
                     onPostProcessChange(itemIndex, e){
                         this.products[itemIndex].post_process = e.target.value;
                         this.products[itemIndex].post_process_name = this.products[itemIndex].post_processing_list.find(item => item.value ==  e.target.value).name;
                     },
-                    // <!-- Materialien aus DB ziehen -->
+                    <!-- Materialien aus DB ziehen -->
                     getMaterials(){
                         axios.get('http://localhost:3300?request=get_materials').then( response => {
                             this.materials = response.data;
                         })
                     }, 
-                    // <!-- Nachbearbeitungen aus DB ziehen -->
+                    <!-- Nachbearbeitungen aus DB ziehen -->
                     getPostProcessing(material_id, product_idx){
                         axios.get('http://localhost:3300?request=get_post_processing&material_id='+material_id).then( response => {
                             this.products[product_idx].post_processing_list = response.data;
                         })
                     }, 
-                     //<!-- Ordnung in DB setzen -->
+                    <!-- Bestellung in DB setzen. Vorher Überprüfung, ob alle Felder ausgefüllt sind -->
                     doOrder(){
                         if (!this.customer.name){
                             alert("Bitte Name eingeben");
@@ -459,7 +460,7 @@
                     }
                     },
 
-                    // define function after model is loaded
+                    <!-- Funktion, die oben zur Erstellung eines neuen Objekts benutzt wird. -->
                     after_model_load_callback(model_id) {
                         const __this = this;
                         const model = __this.stl_viewer.models.find(model => model.id == model_id);
@@ -494,19 +495,17 @@
                         return container;
                     },
 
+                    <!-- Umwandlung von base64 (in Funktion über dieser) in eine binary Datei, die in String gehalten wird -->
                     base_64_to_file(base_64, file_name){
-                        // convert base64 to raw binary data held in a string
-                        // doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
                         var byteString = atob(base_64.split(',')[1]);
-                        // separate out the mime component
                         var mimeString = base_64.split(',')[0].split(':')[1].split(';')[0];
-                        // write the bytes of the string to an ArrayBuffer
+                        <!-- Bytes aus String werden in Arraybuffer geschrieben -->
                         var ab = new ArrayBuffer(byteString.length);
                         var dw = new DataView(ab);
                         for(var i = 0; i < byteString.length; i++) {
                             dw.setUint8(i, byteString.charCodeAt(i));
                         }
-                        // write the ArrayBuffer to a blob, and you're done
+                        <!-- Arraybuffer von oben wird umgewandelt in zurückzuschickende Datei -->
                         blob = new Blob([ab], {type: mimeString})
                         return  new File([blob], file_name);
                     }
