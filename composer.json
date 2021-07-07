@@ -1,5 +1,4 @@
 {
-    <!-- Composer ist ein Verwaltungstool für PHP-->
     "require": {
         "phpmailer/phpmailer": "^6.5",
         "league/oauth2-client": "^2.6",
