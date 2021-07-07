@@ -334,7 +334,7 @@
                         
                     });
                 },
-                <!-- Berechnung der Variablen -->
+               // <!-- Berechnung der Variablen -->
                 data: {
                     orderedSuccess: false,
                     toCart: false,
@@ -351,7 +351,7 @@
                         return this.total_price;
                     }
                 },
-                <!-- Funktionalitäten der Knöpfe. Entfernen, Kopieren und zusätzlicher Knopf-->
+                //<!-- Funktionalitäten der Knöpfe. Entfernen, Kopieren und zusätzlicher Knopf-->
                 methods: {
                     removeProduct(index){
                         this.products.splice(index, 1);
@@ -381,7 +381,7 @@
                         }, 100)
 
                     },
-                    <!-- Multiupload-Funktion -->
+                   // <!-- Multiupload-Funktion -->
                     uploadMultiFiles(e) {
                         let idx = 0;
                         for(file of e.target.files) {
@@ -390,7 +390,7 @@
                         }
                     },
 
-                    <!-- Material -->
+                   // <!-- Material -->
                     getMaterialName(id) {
                         if(this.materials && this.materials.length < 1) {
                             return "-";
@@ -398,7 +398,7 @@
                         return this.materials.find(element => element.value == id).name;
                     },
 
-                    <!-- FireonMaterialChange: Bei Änderung des Materials sollen Werte angepasst werden -->
+                    // <!-- FireonMaterialChange: Bei Änderung des Materials sollen Werte angepasst werden -->
                     onMaterialChange(itemIndex, e){
                         this.getPostProcessing(e.target.value, itemIndex);
                         price = parseFloat(e.target[e.target.selectedIndex].getAttribute('data-price').replace(',', '.'))
@@ -407,24 +407,24 @@
                         product.material_name = this.getMaterialName(e.target.value);
                         product.preis = product.volumen * price;
                     },
-                    <!-- Nachbearbeitungen festlegen -->
+                   // <!-- Nachbearbeitungen festlegen -->
                     onPostProcessChange(itemIndex, e){
                         this.products[itemIndex].post_process = e.target.value;
                         this.products[itemIndex].post_process_name = this.products[itemIndex].post_processing_list.find(item => item.value ==  e.target.value).name;
                     },
-                    <!-- Materialien aus DB ziehen -->
+                    //<!-- Materialien aus DB ziehen -->
                     getMaterials(){
                         axios.get('http://localhost:3300?request=get_materials').then( response => {
                             this.materials = response.data;
                         })
                     }, 
-                    <!-- Nachbearbeitungen aus DB ziehen -->
+                    //<!-- Nachbearbeitungen aus DB ziehen -->
                     getPostProcessing(material_id, product_idx){
                         axios.get('http://localhost:3300?request=get_post_processing&material_id='+material_id).then( response => {
                             this.products[product_idx].post_processing_list = response.data;
                         })
                     }, 
-                    <!-- Bestellung in DB setzen. Vorher Überprüfung, ob alle Felder ausgefüllt sind -->
+                   // <!-- Bestellung in DB setzen. Vorher Überprüfung, ob alle Felder ausgefüllt sind -->
                     doOrder(){
                         if (!this.customer.name){
                             alert("Bitte Name eingeben");
@@ -460,7 +460,7 @@
                     }
                     },
 
-                    <!-- Funktion, die oben zur Erstellung eines neuen Objekts benutzt wird. -->
+                   // <!-- Funktion, die oben zur Erstellung eines neuen Objekts benutzt wird. -->
                     after_model_load_callback(model_id) {
                         const __this = this;
                         const model = __this.stl_viewer.models.find(model => model.id == model_id);
@@ -495,17 +495,17 @@
                         return container;
                     },
 
-                    <!-- Umwandlung von base64 (in Funktion über dieser) in eine binary Datei, die in String gehalten wird -->
+                   // <!-- Umwandlung von base64 (in Funktion über dieser) in eine binary Datei, die in String gehalten wird -->
                     base_64_to_file(base_64, file_name){
                         var byteString = atob(base_64.split(',')[1]);
                         var mimeString = base_64.split(',')[0].split(':')[1].split(';')[0];
-                        <!-- Bytes aus String werden in Arraybuffer geschrieben -->
+                     //   <!-- Bytes aus String werden in Arraybuffer geschrieben -->
                         var ab = new ArrayBuffer(byteString.length);
                         var dw = new DataView(ab);
                         for(var i = 0; i < byteString.length; i++) {
                             dw.setUint8(i, byteString.charCodeAt(i));
                         }
-                        <!-- Arraybuffer von oben wird umgewandelt in zurückzuschickende Datei -->
+                     //   <!-- Arraybuffer von oben wird umgewandelt in zurückzuschickende Datei -->
                         blob = new Blob([ab], {type: mimeString})
                         return  new File([blob], file_name);
                     }
