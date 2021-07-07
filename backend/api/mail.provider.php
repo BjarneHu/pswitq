@@ -9,6 +9,8 @@ require 'PHPMailer-master/src/SMTP.php';
 //require './vendor/autoload.php';
 //require 'PHPMailerAutoload.php';
 
+/* Diese Funktion "besorgt" den Inhalt der E-Mail, die an den Kunden geschickt wird*/
+
 function get_content_for_customer($data){
   return sprintf("Sehr geehrte/r Herr/Frau %s <br><br> vielen Dank f&uuml;r Ihre Bestellung. Wir werden Sie benachrichtigen, sobald Ihr(e) Artikel versandt wurde(n)<br>
       Ihre Bestellung:<br> 
@@ -60,6 +62,8 @@ function get_content_for_customer($data){
   );
 }
 
+/* Diese Funktion "besorgt" den Inhalt der E-Mail, die an TQ geschickt wird*/
+
 function get_content_for_tq($data){
   return sprintf("Soeben wurde eine Bestellung abgegeben <br>
       Bestellung:<br> 
@@ -110,6 +114,7 @@ function get_content_for_tq($data){
     );
 }
 
+/* Diese Funktion sorgt für das letztendliche Verschicken der E-Mails */
 
   function send_email($data, $to, $content, $order_id){
     $mail = new PHPMailer();
