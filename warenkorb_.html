@@ -18,12 +18,12 @@
             <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
             <!-- Eigenes Css-Stylesheet einbinden -->
-            <link rel="stylesheet" type="text/css" href="css/custom.css">
+            <link rel="stylesheet" type="text/css" href="assets/css/custom.css">
             <!-- Diverse JS-Datenbanken importieren, die ersten drei zur 3D-Modell-Anzeige -->
             <script src="viewer.min.js"></script>     
-            <script src="js/jquery-3.6.0.min.js"></script>
-            <script src="js/popper.min.js"></script>
-            <script src="js/bootstrap.js"></script>
+            <script src="assets/js/jquery-3.6.0.min.js"></script>
+            <script src="assets/js/popper.min.js"></script>
+            <script src="assets/js/bootstrap.js"></script>
         </head>
         <body class="body">
             <div id="app" class="container-fluid">
@@ -70,7 +70,7 @@
                                             <!-- Dropdown-Menü zur Auswahl der Materialien -->
                                             <div class="col-8">
                                                 <label>Material:</label>
-                                                <select  id="material_dropdown" class="custom-select mr-sm-2" v-on:change="onMaterialChange(index, $event)">
+                                                <select  class="custom-select mr-sm-2" v-on:change="onMaterialChange(index, $event)">
                                                     <option :selected="!product.material" value="">Nichts Ausgewählt</option>
                                                     <option v-for="material of materials" :selected="product.material == material.value" v-bind:value="material.value" :data-price="material.price" >{{material.name}}</option>
                                                 </select>
@@ -80,7 +80,7 @@
                                         <div class="row mt-3">
                                             <div class="col-8">
                                                 <label>Nachbearbeitung:</label>
-                                                <select id="post_process_dropdown" :disabled="!product.material" class="custom-select mr-sm-2" v-on:change="onPostProcessChange(index, $event)">
+                                                <select :disabled="!product.material" class="custom-select mr-sm-2" v-on:change="onPostProcessChange(index, $event)">
                                                     <option :selected="!product.post_process" value="" >Nichts Ausgewählt</option>
                                                     <option v-for="post_process of product.post_processing_list" :selected="product.post_process == post_process.value" v-bind:value="post_process.value">{{post_process.name}}</option>
                                                 </select>
@@ -315,9 +315,17 @@
                             __this.loadingModels = false;
                             setTimeout(() => {
                                 __this.stl_viewer.models.forEach(model => {
-                                    const content = document.getElementById('model_view_'+model.id);
-                                    content.classList.remove('loading-model')
-                                    new StlViewer( content, {models: [{id: 1, local_file: model.local_file}], canvas_width: 200, canvas_height: 200})
+                                    const container_id = 'model_view_'+model.id;
+                                    new StlViewer( 
+                                        document.getElementById(container_id), 
+                                        {
+                                            models: [{id: 1, local_file: model.local_file}], 
+                                            canvas_width: 200, 
+                                            canvas_height: 200,
+                                            model_loaded_callback: (model_id) => {
+                                                document.getElementById(container_id).classList.remove('loading-model');
+                                            }
+                                        })
                                     //content.style.background = 'red';
                                 })
                             }, 100)
@@ -358,8 +366,18 @@
 
                         setTimeout(() => {
                             const model_file = this.base_64_to_file(cloned_product.model_file, cloned_product.file_name);
-                            const stl_view = StlViewer( document.getElementById(container_id), {models: [{id: 1, local_file: model_file}], canvas_width: 200, canvas_height: 200})
-                        }, 60)
+                            const stl_view = new StlViewer( 
+                                document.getElementById(container_id), 
+                                {
+                                    models: [{local_file: model_file}], 
+                                    canvas_width: 200, 
+                                    canvas_height: 200,
+                                    all_loaded_callback: () => {
+                                        document.getElementById(container_id).classList.remove('loading-model');
+                                    }
+                                },
+                                )
+                        }, 100)
 
                     },
                      // <!-- Multiupload-Funktion -->
